@@ -18,6 +18,7 @@ class StockscraperPipeline:
         return item
 
     def storeInDb(self, item):
+        title = item.get('title','').strip()
         time = item.get('time','').strip()
         volume = item.get('volume','').strip()
         price = item.get('price','').strip()
@@ -26,9 +27,9 @@ class StockscraperPipeline:
         code = item.get('code', '').strip()
 
         sql = '''
-        INSERT INTO stock_data(id, time, volume, price, top_price, low_price, code) VALUES(null, %s, %s, %s, %s, %s, %s)
+        INSERT INTO stock_data(id, title, time, volume, price, top_price, low_price, code) VALUES(null, %s, %s, %s, %s, %s, %s, %s)
         '''
-        self.cur.execute(sql, (time, volume, price, top_price, low_price, code))
+        self.cur.execute(sql, (title, time, volume, price, top_price, low_price, code))
         self.conn.commit()
 
     def setupDBConnect(self):
@@ -41,6 +42,7 @@ class StockscraperPipeline:
         self.cur.execute("""
         CREATE TABLE IF NOT EXISTS stock_data(
             id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(50),
             time VARCHAR(50),
             volume VARCHAR(50),
             price VARCHAR(50),

@@ -9,6 +9,7 @@ class MyStockBotsSpider(scrapy.Spider):
     start_urls = ['https://finance.naver.com/item/main.nhn?code=000660']
 
     def parse(self, response):
+        title = response.css('.new_totalinfo>.blind>dd:nth-of-type(2)::text').extract()
         time = response.css('.new_totalinfo>.blind>dd:nth-of-type(1)::text').extract()
         volume = response.css('.new_totalinfo>.blind>dd:nth-of-type(11)::text').extract()
         price = response.css('.new_totalinfo>.blind>dd:nth-of-type(4)::text').extract()
@@ -16,12 +17,13 @@ class MyStockBotsSpider(scrapy.Spider):
         low_price = response.css('.new_totalinfo>.blind>dd:nth-of-type(9)::text').extract()
         code = response.css('.new_totalinfo>.blind>dd:nth-of-type(3)::text').extract()
         
-        for row in zip(time, volume, price, top_price, low_price, code):
+        for row in zip(title, time, volume, price, top_price, low_price, code):
             item = StockscraperItem()
-            item['time'] = row[0].replace(' 기준 장중', '')
-            item['volume'] = row[1][4:]
-            item['price'] = row[2].split(' ')[1]
-            item['top_price'] = row[3][3:]
-            item['low_price'] = row[4][3:]
-            item['code'] = row[5].split(' ')[1]
+            item['title'] = row[0].split(' ')[1]
+            item['time'] = row[1][:21]
+            item['volume'] = row[2][4:]
+            item['price'] = row[3].split(' ')[1]
+            item['top_price'] = row[4][3:]
+            item['low_price'] = row[5][3:]
+            item['code'] = row[6].split(' ')[1]
             yield item

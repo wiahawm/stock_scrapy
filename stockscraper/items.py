@@ -7,6 +7,7 @@ import scrapy
 
 
 class StockscraperItem(scrapy.Item):
+    title = scrapy.Field()
     time = scrapy.Field()
     volume = scrapy.Field()
     price = scrapy.Field()

@@ -90,4 +90,3 @@ ITEM_PIPELINES = {
 FEED_FORMAT = 'csv'
 FEED_URI = 'my_stock.csv'
 FEED_EXPORT_ENCODING = 'utf-8-sig'
-# JOBDIR = 'https://finance.naver.com/item/main.nhn?code=000660'
