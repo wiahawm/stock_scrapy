@@ -38,7 +38,6 @@ class StockscraperPipeline:
         print("DB Connected")
 
     def createTable(self):
-        self.cur.execute("DROP TABLE IF EXISTS stock_data")
         self.cur.execute("""
         CREATE TABLE IF NOT EXISTS stock_data(
             id INT AUTO_INCREMENT PRIMARY KEY,
