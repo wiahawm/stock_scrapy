@@ -8,7 +8,7 @@ def job():
     output = os.popen('scrapy crawl my_stock_bots').read()
     print(output)
 
-schedule.every(5).seconds.do(job)
+schedule.every(10).minutes.do(job)
 while True:
     schedule.run_pending()
     time.sleep(1)
